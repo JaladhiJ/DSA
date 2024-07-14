@@ -11,9 +11,7 @@ Trie::Trie()
 // Returns new trie node (initialized to NULLs)
 struct TrieNode* Trie::getNode(void)
 {
-	TrieNode* newNode;
-	newNode->isWordEnd = 0;
-	for (int i = 0; i < ALPHABET_SIZE; i++) newNode->children[i] = nullptr;
+	TrieNode* newNode = new TrieNode;
 	return newNode;
 }
 
@@ -57,12 +55,12 @@ bool Trie::isLastNode(struct TrieNode* root)
 
 // Recursive function to print auto-suggestions for given
 // node.
+int count = 0;
 void Trie::suggestionsRec(struct TrieNode* root,
 					std::string currPrefix)
 {
+	if(root->isWordEnd == 1) {cout << currPrefix << endl;count++;}
 	for (int i = 0; i < ALPHABET_SIZE; i++) if(root->children[i]!=nullptr) suggestionsRec(root->children[i], currPrefix+ char(i+'a'));
-	if(root->isWordEnd == 1) cout << currPrefix << endl;
-	
 	// found a std::string in Trie with the given prefix
 }
 
@@ -77,10 +75,5 @@ int Trie::printAutoSuggestions(TrieNode* root, const std::string query)
 	}
 	
 	suggestionsRec(node, query);
-}
-
-// Process the file "lorem.txt" to insert the words in lorem.txt and store the relevant context as needed.
-void Trie::processContext()
-{
-	
+	return count;
 }
